@@ -63,7 +63,7 @@ This research confirms that time series classification methods like MINIROCKET a
 ---
 
 ## License:
-This work is licensed under.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
