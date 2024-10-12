@@ -36,12 +36,12 @@ The data used for training and testing the model's effectiveness was sampled ove
 - Training Window 2  
 - Training Window 3  
 - Testing Window  
-[SlidingWindow](SlidingWindow.png)
+![SlidingWindow](SlidingWindow.png)
 
 ---
 
 ## Methodology:
-[Model](Model.png)
+![Model](Model.png)
 
 ### Input Features:  
 The following 14 features were used for input, emphasizing both static and dynamic nature:
