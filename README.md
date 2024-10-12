@@ -1,11 +1,4 @@
-To write a README file for your paper, here’s a sample template you can follow based on its content:
-
----
-
-# README
-
-## Paper Title:  
-**A Dynamic Approach to Churn Prediction Using Time Series Classification**
+ **A Dynamic Approach to Churn Prediction Using Time Series Classification**
 
 ### Authors:
 - Si Dan Tran¹²
@@ -32,21 +25,68 @@ This paper addresses the challenge of predicting customer churn using time serie
 
 ---
 
+## Data Source:
+The data used was introduced at the **11th ACM International Conference on Web Search and Data Mining (Y. Chen, Xie, Lin, & Chiu, 2018)**, containing churn customer data from the online subscription music platform **KKBOX**. The dataset includes three characteristic groups:  
+- **Listening behavior of customers**  
+- **Demographics of customers**  
+- **Transaction history of customers**
+
+The data used for training and testing the model's effectiveness was sampled over the period from **October 12, 2016, to February 28, 2017**, corresponding to 20-week time series data with each time step equivalent to 1 week. The time frames were created using the “sliding window” algorithm, resulting in the following windows:
+- Training Window 1  
+- Training Window 2  
+- Training Window 3  
+- Testing Window  
+[SlidingWindow](SlidingWindow.png)
+
+---
+
 ## Methodology:
-1. **Data Source:**  
-   - KKBOX music subscription platform, with customer demographics, listening behavior, and transaction history over a 20-week period.
+[Model](Model.png)
 
-2. **Proposed Models:**  
-   - **MINIROCKET**: A time series classification model based on convolution kernels optimized for speed and accuracy.  
-   - **LSTM-SLP**: A hybrid model combining Bidirectional Long Short-Term Memory (LSTM) with a Single Layer Perceptron (SLP) to leverage both temporal and static features.
+### Input Features:  
+The following 14 features were used for input, emphasizing both static and dynamic nature:
+- **num_25**: Number of songs played for less than 25% of their length.
+- **num_50**: Number of songs played between 25% and 50% of their length.
+- **num_75**: Number of songs played between 50% and 75% of their length.
+- **num_985**: Number of songs played between 75% and 98.5% of their length.
+- **num_100**: Number of songs played for more than 98.5% of their length.
+- **num_unq**: Number of unique songs played.
+- **total_secs**: Total time spent listening to songs, measured in seconds.
+- **actual_amount_paid**: Actual amount of money paid by the user.
+- **diff_actual_plan_paid**: Difference between the actual amount paid and the planned amount.
+- **make_cancellation**: Indicator of whether the user made a cancellation at the time.
+- **city**: The city where the user resides.
+- **age_group**: Age group classification of the user.
+- **gender**: Gender of the user.
+- **registered_via**: The method or platform through which the user registered.
 
-3. **Baseline Models for Comparison:**  
-   - Random Forest (Static)  
-   - XGBoost (Static)  
-   - Ridge Regression (Static)
+### Data Preprocessing:
+- **Outlier Handling**: The Interquartile Range (IQR) method was used to identify and remove outliers from the data.  
+- **Feature Extraction**: New features were extracted to reduce dependence between existing features and highlight dynamic behaviors.  
+- **Time Series Transformation**: Data was aggregated and transformed weekly to create multivariate time series, essential for accurate churn prediction.  
 
-4. **Evaluation Metrics:**  
-   - F1 Score, Accuracy, Precision, Recall, and Log Loss.
+---
+
+## Model Overview:
+Two time series classification models were proposed:  
+1. **MINIROCKET**: A time series classification model that uses a minimal random convolution kernel. It achieved high accuracy and computational efficiency.
+2. **LSTM-SLP**: A hybrid model that combines Bidirectional Long Short-Term Memory (LSTM) and Single Layer Perceptron (SLP) to utilize both temporal and static features.
+
+### Baseline Models for Comparison:
+- Random Forest (Static)  
+- XGBoost (Static)  
+- Ridge Regression (Static)
+
+---
+
+## Model Evaluation Results:
+| Model                | Precision | Accuracy | Recall | F1 Score | Log Loss |
+|----------------------|-----------|----------|--------|----------|----------|
+| **MINIROCKET**        | 0.82      | 0.95     | 0.77   | 0.79     | 1.74     |
+| **LSTM-SLP**          | 0.74      | 0.94     | 0.80   | 0.76     | 1.95     |
+| Random Forest - Static| 0.70      | 0.93     | 0.77   | 0.73     | 2.50     |
+| XGBoost - Static      | 0.69      | 0.93     | 0.76   | 0.72     | 2.54     |
+| Ridge Regression - Static| 0.77   | 0.94     | 0.51   | 0.50     | 2.04     |
 
 ---
 
@@ -64,7 +104,3 @@ This research confirms that time series classification methods like MINIROCKET a
 
 ## License:
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-This README provides a brief overview of the paper, covering its main points, methodology, and results.
